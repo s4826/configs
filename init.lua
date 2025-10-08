@@ -87,7 +87,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig').basedpyright.setup({
+vim.lsp.config('basedpyright', {
     capabilities = capabilities,
     settings = {
         basedpyright = {
@@ -100,9 +100,11 @@ require('lspconfig').basedpyright.setup({
         }
     }
 })
-require('lspconfig').lua_ls.setup({
+
+vim.lsp.config('lua_ls', {
     capabilities = capabilities
 })
-require('lspconfig').gopls.setup({
+
+vim.lsp.config('gopls', {
     capabilities = capabilities
 })
