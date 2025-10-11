@@ -100,11 +100,14 @@ vim.lsp.config('basedpyright', {
         }
     }
 })
+vim.lsp.enable('basedpyright')
 
 vim.lsp.config('lua_ls', {
     capabilities = capabilities
 })
+vim.lsp.enable('lua_ls')
 
 vim.lsp.config('gopls', {
     capabilities = capabilities
 })
+vim.lsp.enable('gopls')
