@@ -33,6 +33,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
+-- Maps leader=" " and localleader="\"
 require('config.lazy')
 
 require('goto-preview').setup({
@@ -111,3 +112,50 @@ vim.lsp.config('gopls', {
     capabilities = capabilities
 })
 vim.lsp.enable('gopls')
+
+vim.lsp.config('gradle_ls', {
+    capabilities = capabilities
+})
+vim.lsp.enable('gradle_ls')
+
+require('java').setup({
+    jdk = {
+        auto_install = false,
+    },
+})
+vim.lsp.enable('jdtls')
+
+local dap = require('dap')
+dap.configurations.lua = {
+    {
+        type = 'nlua',
+        request = 'attach',
+        name = 'Attach to running neovim',
+    }
+}
+dap.adapters.nlua = function(callback, config)
+    callback({ type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 })
+end
+
+vim.keymap.set('n', '<leader>db', require('dap').toggle_breakpoint, {noremap = true})
+vim.keymap.set('n', '<leader>dc', require('dap').continue, {noremap = true})
+vim.keymap.set('n', '<Down>', require('dap').step_over, {noremap = true})
+vim.keymap.set('n', '<Right>', require('dap').step_into, {noremap = true})
+vim.keymap.set('n', '<Left>', require('dap').step_out, {noremap = true})
+vim.keymap.set('n', '<leader>dl', function()
+    require('osv').launch({port = 8086})
+end, {noremap = true})
+vim.keymap.set('n', '<leader>dw', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.hover()
+end)
+vim.keymap.set('n', '<leader>df', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.frames)
+end)
+
+vim.keymap.set('n', '<leader>nt', ':Neotree toggle<CR>')
+vim.keymap.set('n', '<leader><F9>', ':JavaTestRunCurrentMethod<CR>')
+vim.keymap.set('n', '<leader><F10>', ':JavaTestRunCurrentClass<CR>')
+vim.keymap.set('n', '<leader><F12>', ':JavaTestViewLastReport<CR>')
+vim.keymap.set('n', '<leader>g', ':Gradle<CR>')
